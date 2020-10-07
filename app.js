@@ -10,6 +10,10 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 const Employee = require("./lib/Employee");
+const { isNumberTypeAnnotation } = require("@babel/types");
+const { choices } = require("yargs");
+const { RSA_NO_PADDING } = require("constants");
+const { create } = require("domain");
 
 // render(yourArray) will return a string of html ile that you can use to write your html file
 
@@ -20,14 +24,76 @@ const Employee = require("./lib/Employee");
 //TODO: use switch case break
 
 
-const employeeArray = []
+const employeeArray = [];
 
-function managerInfo(){
-    inquirer.prompt[(
-        
-    )]
+function newEmployee() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "Enter your name",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "Enter your ID",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "Enter your email address",
+            name: "email"
+        },
+        {
+            type: "list",
+            message: "What is your role?",
+            name: "Employee",
+            choices: [
+                "Manager",
+                "Engineer",
+                "Intern"
+            ]
+        },
+    ]).then(function ({ choices }) {
+        switch ({ choices }) {
+            case "Manager":
+                createManager();
+                break;
+            case "Engineer":
+                createEngineer();
+                break;
+            case "Intern":
+                createIntern();
+                break;
+
+        }
+
+    })
+
 }
 
+function createManager(response) {
+    if (response.choices === "Manager") {
+        const newManager = new Manager(response.name, response.id, response.email, response.officeNumber)
+        employeeArray.push(newManager)
+    }
+    return newManager
+}
+function createEngineer (response){
+    if(response.choices === "Engineer"){
+        const newEng = new Engineer(response.name, response.id, response.email, response.github)
+        employeeArray.push(newEng)
+    }
+}
+function createIntern (response){
+    if(response === "Intern") {
+        const newIntern = new Intern(response.name, response.id, response.email, response.school)
+        employeeArray.push(newIntern)
+    }
+}
+
+
+newEmployee();
+render(employeeArray);
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
