@@ -9,6 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const Employee = require("./lib/Employee");
 
 // render(yourArray) will return a string of html ile that you can use to write your html file
 
@@ -19,6 +20,13 @@ const render = require("./lib/htmlRenderer");
 //TODO: use switch case break
 
 
+const employeeArray = []
+
+function managerInfo(){
+    inquirer.prompt[(
+        
+    )]
+}
 
 
 // Write code to use inquirer to gather information about the development team members,
