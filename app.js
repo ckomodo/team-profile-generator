@@ -15,14 +15,6 @@ const { choices } = require("yargs");
 const { RSA_NO_PADDING } = require("constants");
 const { create } = require("domain");
 
-// render(yourArray) will return a string of html ile that you can use to write your html file
-
-// you need an array for employees and every time you create an employee(manager or engineer or intern) push them into that array and when you're done, use that array in the render funcion to create your html
-//TODO: inquirer.prompt then wrap it in a function
-
-//TODO: .then function
-//TODO: use switch case break
-
 
 const employeeArray = [];
 
@@ -44,7 +36,7 @@ function newEmployee() {
             name: "email"
         },
         {
-            type: "list",
+            type: "checkbox",
             message: "What is your role?",
             name: "Employee",
             choices: [
@@ -73,22 +65,86 @@ function newEmployee() {
 
 function createManager(response) {
     if (response.choices === "Manager") {
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Enter your office Number",
+                name: "officeNumber"
+            }
+        ])
         const newManager = new Manager(response.name, response.id, response.email, response.officeNumber)
         employeeArray.push(newManager)
     }
-    return newManager
+    return `<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">{${ name }}</h2>
+        <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>{${ role }}</h3>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: {${ id }}</li>
+            <li class="list-group-item">Email: <a href="mailto:{${ email }}">{{ email }}</a></li>
+            <li class="list-group-item">Office number: {${ officeNumber }}</li>
+        </ul>
+    </div>
+</div>
+`
 }
 function createEngineer (response){
     if(response.choices === "Engineer"){
+
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Enter your Github Username",
+                name: "github"
+            }
+        ])
         const newEng = new Engineer(response.name, response.id, response.email, response.github)
         employeeArray.push(newEng)
     }
+    return `<div class="card employee-card">
+    <div class="card-header">
+        <h2 class="card-title">{${ name }}</h2>
+        <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>{${ role }}</h3>
+    </div>
+    <div class="card-body">
+        <ul class="list-group">
+            <li class="list-group-item">ID: {${ id }}</li>
+            <li class="list-group-item">Email: <a href="mailto:{{ email }}">{${ email }}</a></li>
+            <li class="list-group-item">GitHub: <a href="https://github.com/{${ github }}" target="_blank" rel="noopener noreferrer">${{ github }}</a></li>
+        </ul>
+    </div>
+</div>
+`
 }
 function createIntern (response){
     if(response === "Intern") {
+
+        inquirer.prompt([
+            {
+                type: "input",
+                message: "Enter your school name",
+                name: "school"
+            }
+        ])
         const newIntern = new Intern(response.name, response.id, response.email, response.school)
         employeeArray.push(newIntern)
     }
+return `<div class="card employee-card">
+<div class="card-header">
+    <h2 class="card-title">{${ name }}</h2>
+    <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>{${ role }}</h3>
+</div>
+<div class="card-body">
+    <ul class="list-group">
+        <li class="list-group-item">ID: {${ id }}</li>
+        <li class="list-group-item">Email: <a href="mailto:{{ email }}">{${ email }}</a></li>
+        <li class="list-group-item">School: {${ school }}</li>
+    </ul>
+</div>
+</div>
+`
 }
 
 
